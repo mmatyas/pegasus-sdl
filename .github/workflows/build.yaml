@@ -7,6 +7,8 @@ env:
 jobs:
   macos:
     runs-on: macos-10.15
+    env:
+      MACOSX_DEPLOYMENT_TARGET: "10.13"
     steps:
       - run: curl -L https://libsdl.org/release/${SDL_NAME}.tar.gz | tar xzf -
       - name: Configure
