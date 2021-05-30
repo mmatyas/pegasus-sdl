@@ -23,7 +23,9 @@ jobs:
         working-directory: ${{ env.SDL_NAME }}
       - run: make install DESTDIR=$PWD/../deploy
         working-directory: ${{ env.SDL_NAME }}
+      - run: tar cJf ../../${SDL_NAME}_macos.tar.xz ${SDL_NAME}
+        working-directory: deploy/usr/local
       - uses: actions/upload-artifact@v2
         with:
           name: sdl2-macos-static
-          path: deploy/usr/local/${{ env.SDL_NAME }}
+          path: deploy/${{ env.SDL_NAME }}_macos.tar.xz
