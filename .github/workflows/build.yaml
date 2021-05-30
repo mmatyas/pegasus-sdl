@@ -1,25 +1,29 @@
 on: [push, workflow_dispatch]
 
+env:
+  SDL_NAME: SDL2-2.0.14
+
 
 jobs:
   macos:
     runs-on: macos-10.15
     steps:
-      - run: curl -L https://libsdl.org/release/SDL2-2.0.14.tar.gz | tar xzf -
-      - run: ./configure
+      - run: curl -L https://libsdl.org/release/${SDL_NAME}.tar.gz | tar xzf -
+      - name: Configure
+        run: ./configure
           --disable-shared
           --enable-static
           --disable-audio
           --disable-video
           --disable-render
           --disable-video-vulkan
-          --prefix=/usr/local/SDL2-2.0.14
-        working-directory: SDL2-2.0.14
+          --prefix=/usr/local/${SDL_NAME}
+        working-directory: ${{ env.SDL_NAME }}
       - run: make
-        working-directory: SDL2-2.0.14
+        working-directory: ${{ env.SDL_NAME }}
       - run: make install DESTDIR=$PWD/../deploy
-        working-directory: SDL2-2.0.14
+        working-directory: ${{ env.SDL_NAME }}
       - uses: actions/upload-artifact@v2
         with:
           name: sdl2-macos-static
-          path: deploy
+          path: deploy/usr/local/${{ env.SDL_NAME }}
