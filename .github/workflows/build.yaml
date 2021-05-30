@@ -16,7 +16,6 @@ jobs:
           --disable-shared
           --enable-static
           --disable-audio
-          --disable-video
           --disable-render
           --disable-video-vulkan
           --prefix=/usr/local/${SDL_NAME}
