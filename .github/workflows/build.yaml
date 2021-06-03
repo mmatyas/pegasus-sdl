@@ -16,7 +16,9 @@ jobs:
           --disable-shared
           --enable-static
           --disable-audio
+          --disable-video
           --disable-render
+          --disable-video-dummy
           --disable-video-vulkan
           --prefix=/usr/local/${SDL_NAME}
         working-directory: ${{ env.SDL_NAME }}
