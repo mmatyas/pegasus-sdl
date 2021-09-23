@@ -1,0 +1,28 @@
+name: Build - Android
+
+on: [push, workflow_dispatch]
+
+env:
+  SDL_NAME: SDL2-2.0.16
+
+
+jobs:
+  android:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: nttld/setup-ndk@v1
+        with:
+          ndk-version: r21e
+      - run: curl -L https://libsdl.org/release/${SDL_NAME}.tar.gz | tar xzf -
+      - name: Build
+        run: ./${SDL_NAME}/build-scripts/androidbuildlibs.sh
+      - name: Stage
+        run: |
+          mkdir -p deploy/SDL2
+          mv ${SDL_NAME}/include ${SDL_NAME}/build/android/lib ./deploy/SDL2/
+          cd deploy
+          tar cJf ${SDL_NAME}_android.tar.xz SDL2
+      - uses: actions/upload-artifact@v2
+        with:
+          name: sdl2-android
+          path: deploy/${{ env.SDL_NAME }}_android.tar.xz
