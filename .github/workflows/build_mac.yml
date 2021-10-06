@@ -12,7 +12,7 @@ jobs:
     env:
       MACOSX_DEPLOYMENT_TARGET: "10.13"
     steps:
-      - run: curl -L https://libsdl.org/release/${SDL_NAME}.tar.gz | tar xzf -
+      - run: curl -L https://libsdl.org/release/${SDL_NAME}.tar.gz | tar xzf - --strip-components=1
       - name: Configure
         run: ./configure
           --disable-shared
@@ -22,15 +22,12 @@ jobs:
           --disable-render
           --disable-video-dummy
           --disable-video-vulkan
-          --prefix=/usr/local/${SDL_NAME}
-        working-directory: ${{ env.SDL_NAME }}
+          --prefix=/opt/${SDL_NAME}
       - run: make
-        working-directory: ${{ env.SDL_NAME }}
-      - run: make install DESTDIR=$PWD/../deploy
-        working-directory: ${{ env.SDL_NAME }}
-      - run: tar cJf ../../${SDL_NAME}_macos.tar.xz ${SDL_NAME}
-        working-directory: deploy/usr/local
+      - run: make install DESTDIR=$PWD/deploy
+      - run: tar cJf ../${SDL_NAME}_macos.tar.xz ./*
+        working-directory: deploy/opt
       - uses: actions/upload-artifact@v2
         with:
           name: sdl2-macos-static
-          path: deploy/${{ env.SDL_NAME }}_macos.tar.xz
+          path: deploy/*.tar.xz
