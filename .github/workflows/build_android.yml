@@ -3,7 +3,7 @@ name: Build - Android
 on: [push, workflow_dispatch]
 
 env:
-  SDL_NAME: SDL2-2.0.16
+  SDL_NAME: SDL2-2.0.18
 
 
 jobs:
