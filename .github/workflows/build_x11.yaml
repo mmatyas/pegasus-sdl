@@ -1,0 +1,19 @@
+name: Build - X11
+
+on: [push, workflow_dispatch]
+
+env:
+  SDL_NAME: SDL2-2.0.20
+  PLATFORM_SUFFIX: x11-bionic
+
+
+jobs:
+  x11:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v3
+      - run: ./tools/common_build.sh
+      - uses: actions/upload-artifact@v2
+        with:
+          name: sdl2-x11-static
+          path: deploy/*.tar.xz
