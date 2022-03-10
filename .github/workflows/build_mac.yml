@@ -4,6 +4,7 @@ on: [push, workflow_dispatch]
 
 env:
   SDL_NAME: SDL2-2.0.20
+  PLATFORM_SUFFIX: macos
 
 
 jobs:
@@ -12,21 +13,8 @@ jobs:
     env:
       MACOSX_DEPLOYMENT_TARGET: "10.13"
     steps:
-      - run: curl -L https://libsdl.org/release/${SDL_NAME}.tar.gz | tar xzf - --strip-components=1
-      - name: Configure
-        run: ./configure
-          --disable-shared
-          --enable-static
-          --disable-audio
-          --disable-video
-          --disable-render
-          --disable-video-dummy
-          --disable-video-vulkan
-          --prefix=/opt/${SDL_NAME}
-      - run: make
-      - run: make install DESTDIR=$PWD/deploy
-      - run: tar cJf ../${SDL_NAME}_macos.tar.xz ./*
-        working-directory: deploy/opt
+      - uses: actions/checkout@v3
+      - run: ./tools/common_build.sh --disable-video
       - uses: actions/upload-artifact@v2
         with:
           name: sdl2-macos-static
