@@ -1,0 +1,46 @@
+name: Build - Raspberry
+
+on: [push, workflow_dispatch]
+
+env:
+  SDL_NAME: SDL2-2.0.20
+
+
+jobs:
+  rpi-brcm:
+    runs-on: ubuntu-latest
+    container: mmatyas/pegasus-qt_raspberry-gha
+    env:
+      PLATFORM_SUFFIX: rpi-brcm
+      PKG_CONFIG_LIBDIR: /opt/rpi-sysroot_buster_brcm/usr/lib/pkgconfig:/opt/rpi-sysroot_buster_brcm/usr/share/pkgconfig:/opt/rpi-sysroot_buster_brcm/usr/lib/arm-linux-gnueabihf/pkgconfig
+      PKG_CONFIG_SYSROOT_DIR: /opt/rpi-sysroot_buster_brcm
+      CFLAGS: -I/opt/rpi-sysroot_buster_brcm/usr/include/
+    steps:
+      - uses: actions/checkout@v3
+      - run: ./tools/common_build.sh
+          --disable-video
+          --host=arm-linux-gnueabihf
+          --with-sysroot=/opt/rpi-sysroot_buster_brcm
+      - uses: actions/upload-artifact@v2
+        with:
+          name: sdl2-rpi-brcm
+          path: deploy/*.tar.xz
+
+  rpi-mesa:
+    runs-on: ubuntu-latest
+    container: mmatyas/pegasus-qt_raspberry-gha
+    env:
+      PLATFORM_SUFFIX: rpi-mesa
+      PKG_CONFIG_LIBDIR: /opt/rpi-sysroot_buster_mesa/usr/lib/pkgconfig:/opt/rpi-sysroot_buster_mesa/usr/share/pkgconfig:/opt/rpi-sysroot_buster_mesa/usr/lib/arm-linux-gnueabihf/pkgconfig
+      PKG_CONFIG_SYSROOT_DIR: /opt/rpi-sysroot_buster_mesa
+      CFLAGS: -I/opt/rpi-sysroot_buster_mesa/usr/include/
+    steps:
+      - uses: actions/checkout@v3
+      - run: ./tools/common_build.sh
+          --disable-video
+          --host=arm-linux-gnueabihf
+          --with-sysroot=/opt/rpi-sysroot_buster_mesa
+      - uses: actions/upload-artifact@v2
+        with:
+          name: sdl2-rpi-mesa
+          path: deploy/*.tar.xz
