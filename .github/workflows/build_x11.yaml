@@ -3,7 +3,7 @@ name: Build - X11
 on: [push, workflow_dispatch]
 
 env:
-  SDL_NAME: SDL2-2.0.20
+  SDL_NAME: SDL2-2.24.1
   PLATFORM_SUFFIX: x11-bionic
 
 
