@@ -3,19 +3,17 @@ name: Build - Mac
 on: [push, workflow_dispatch]
 
 env:
-  SDL_NAME: SDL2-2.24.1
+  SDL_NAME: SDL2-2.32.10
   PLATFORM_SUFFIX: macos
 
 
 jobs:
   macos:
-    runs-on: macos-11
-    env:
-      MACOSX_DEPLOYMENT_TARGET: "10.15"
+    runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
       - run: ./tools/common_build.sh --disable-video
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v7
         with:
           name: sdl2-macos-static
           path: deploy/*.tar.xz

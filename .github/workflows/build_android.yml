@@ -3,7 +3,7 @@ name: Build - Android
 on: [push, workflow_dispatch]
 
 env:
-  SDL_NAME: SDL2-2.24.1
+  SDL_NAME: SDL2-2.32.10
 
 
 jobs:
@@ -22,7 +22,7 @@ jobs:
           mv ${SDL_NAME}/include ${SDL_NAME}/build/android/lib ./deploy/SDL2/
           cd deploy
           tar cJf ${SDL_NAME}_android.tar.xz SDL2
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v7
         with:
           name: sdl2-android
           path: deploy/${{ env.SDL_NAME }}_android.tar.xz

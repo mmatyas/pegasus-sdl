@@ -3,7 +3,7 @@ name: Build - Windows
 on: [push, workflow_dispatch]
 
 env:
-  SDL_NAME: SDL2-2.24.1
+  SDL_NAME: SDL2-2.32.10
   PLATFORM_SUFFIX: mingw
 
 
@@ -16,9 +16,9 @@ jobs:
           sudo apt-get update && sudo apt-get install -y g++-mingw-w64-i686
           echo 1 | sudo update-alternatives --config i686-w64-mingw32-gcc
           echo 1 | sudo update-alternatives --config i686-w64-mingw32-g++
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
       - run: ./tools/common_build.sh --host=i686-w64-mingw32
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v7
         with:
           name: sdl2-mingw-static
           path: deploy/*.tar.xz

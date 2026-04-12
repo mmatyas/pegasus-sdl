@@ -3,7 +3,7 @@ name: Build - Raspberry
 on: [push, workflow_dispatch]
 
 env:
-  SDL_NAME: SDL2-2.24.1
+  SDL_NAME: SDL2-2.32.10
 
 
 jobs:
@@ -16,12 +16,12 @@ jobs:
       PKG_CONFIG_SYSROOT_DIR: /opt/rpi-sysroot_buster_brcm
       CFLAGS: -I/opt/rpi-sysroot_buster_brcm/usr/include/
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
       - run: ./tools/common_build.sh
           --disable-video
           --host=arm-linux-gnueabihf
           --with-sysroot=/opt/rpi-sysroot_buster_brcm
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v7
         with:
           name: sdl2-rpi-brcm
           path: deploy/*.tar.xz
@@ -35,12 +35,12 @@ jobs:
       PKG_CONFIG_SYSROOT_DIR: /opt/rpi-sysroot_buster_mesa
       CFLAGS: -I/opt/rpi-sysroot_buster_mesa/usr/include/
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
       - run: ./tools/common_build.sh
           --disable-video
           --host=arm-linux-gnueabihf
           --with-sysroot=/opt/rpi-sysroot_buster_mesa
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v7
         with:
           name: sdl2-rpi-mesa
           path: deploy/*.tar.xz
